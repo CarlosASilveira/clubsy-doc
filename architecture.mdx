@@ -1,0 +1,110 @@
+---
+title: Arquitetura
+description: "A arquitetura modular, escalável e multi-cloud, com foco na AWS, mas permitindo integrações com outros provedores se necessário. A seguir, descrevo os principais componentes:"
+---
+
+<img
+  className="block dark:hidden"
+  src="/images/hero-light.png"
+  alt="Hero Light"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/hero-dark.png"
+  alt="Hero Dark"
+/>
+
+## Principais Componentes
+
+<AccordionGroup>
+
+<Accordion icon="browser" title="Frontend">
+  * **Web :** React ou Next.js para interfaces responsivas e performáticas.
+  * **Mobile :** Flutter para aplicativos nativos iOS/Android.
+  * **Autenticação** : AWS Cognito ou Firebase para gerenciamento de usuários e autenticação segura.
+</Accordion>
+<Accordion icon="server" title="Backend">
+  * **API Gateway :** Centraliza requisições HTTP e roteia para microserviços específicos.
+  * **Microserviços :**
+    * **Pagamentos :** Integração com Stripe Connect ou outro gateway.
+    * **Cadastro :** Gerencia cadastros de pessoal, planos, recursos.
+    * **Comunicação :** Implementa chat interno, mural de avisos, moderação por IA.
+    * **Notificações :** Envia notificações via e-mail, SMS, push.
+    * **Agendamento :** Gerencia calendários, reservas e controle de presença.
+    * **Framework :** Node.js (Express/NestJS) para desenvolvimento rápido e escalável.
+</Accordion>
+<Accordion icon="database" title="Banco de Dados">
+  * **Relacional** : PostgreSQL para dados estruturados (cadastros, agendamento, indicadores).
+  * **NoSQL :** DynamoDB ou MongoDB para dados não estruturados (transações, logs, eventos, histórico mensagens).
+  * **Cache :** Redis para melhorar performance de consultas frequentes no front.
+</Accordion>
+<Accordion icon="database" title="Filas e Processamento Assíncrono">
+  * **AWS SQS/SNS ou Apache Kafka :** Para processamento assíncrono de eventos (ex.: webhooks, notificações).
+</Accordion>
+<Accordion icon="warehouse" title="Armazenamento">
+  * **AWS S3 :** Armazenamento de arquivos (documentos, mídias).
+  * **CDN :** CloudFront para entrega rápida de conteúdo.
+</Accordion>
+<Accordion icon="camera-security" title="Segurança">
+  * **Criptografia :** TLS para comunicação, AES-256 para dados sensíveis.
+  * **Monitoramento de Webhooks :** HMAC SHA256 para validação de assinaturas.
+  * **Moderação por IA :** AWS Comprehend ou Google Cloud Natural Language para análise de mensagens.
+</Accordion>
+<Accordion icon="monitor-waveform" title="Monitoramento e Logs">
+  * **Criptografia :** TLS para comunicação, AES-256 para dados sensíveis.
+  * **Monitoramento de Webhooks :** HMAC SHA256 para validação de assinaturas.
+  * **Moderação por IA :** AWS Comprehend ou Google Cloud Natural Language para análise de mensagens.
+</Accordion>
+<Accordion icon="square-arrow-up-right" title="Integrações Externas">
+  * **Gateways de Pagamento :** Stripe, Pagar.me, Mercado Pago.
+  * **Comunicação :** Whatsapp, AWS SNS, AWS SES.
+  * **IA para Moderação :** AWS Comprehend ou OpenAI Moderation API.
+</Accordion>
+</AccordionGroup>
+
+
+## Fluxograma de Arquitetura
+
+<AccordionGroup>
+
+<Accordion icon="user" title="Usuário Final ">
+  * Acessa o frontend (Web ou Mobile).
+  * Autentica-se via AWS Cognito.
+</Accordion>
+<Accordion icon="webhook" title="API Gateway">
+  * Recebe requisições HTTP.
+  * Roteia para microserviços específicos.
+</Accordion>
+<Accordion icon="truck-container" title="Microserviços">
+  * Pagamentos :
+    * Processa transações via Stripe Connect.
+    * Registra logs no banco de dados.
+    * Dispara notificações via SNS.
+  * Cadastro :
+    * Gerencia cadastros de pessoal, planos, recursos.
+    * Armazena dados no PostgreSQL.
+  * Comunicação :
+    * Implementa chat interno e mural de avisos.
+    * Usa IA para moderação de mensagens.
+  * Notificações :
+    * Envia e-mails, SMS, push via AWS SNS e SES.
+  * Agendamento :
+    * Gerencia calendários e reservas.
+    * Registra presença e gera relatórios.
+</Accordion>
+<Accordion icon="database" title="Banco de Dados">
+  * PostgreSQL armazena dados estruturados.
+  * DynamoDB/Redis para cache e dados não estruturados.
+</Accordion>
+<Accordion icon="files" title="Filas">
+  * SQS Processa eventos assíncronos (ex.: webhooks, notificações).
+</Accordion>
+<Accordion icon="warehouse" title="Armazenamento">
+  * AWS S3 armazena arquivos.
+  * CloudFront entrega conteúdo.
+</Accordion>
+<Accordion icon="monitor-waveform" title="Monitoramento">
+  * Prometheus/Grafana monitora métricas.
+  * CloudWatch registra logs.
+</Accordion>
+</AccordionGroup>
