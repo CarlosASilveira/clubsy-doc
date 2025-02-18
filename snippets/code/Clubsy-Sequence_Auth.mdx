@@ -1,0 +1,19 @@
+```plaintext
+// --- Authentication Sequence ---
+Cliente > Security: Initiate login request
+activate Security
+Security > Authentication: Validate credentials
+activate Authentication
+alt [label: Traditional Authentication, color: lightblue] {
+    Authentication > Entrada: Return token (Traditional)
+    Entrada --> Authentication: Ack token
+}
+else [label: Social/F2A Authentication, color: lightgreen] {
+    Authentication > Entrada: Return token (Social/F2A)
+    Entrada --> Authentication: Ack token
+}
+deactivate Authentication
+Security <-- Authentication: Processed auth
+deactivate Security
+Entrada --> Cliente: Deliver auth token
+```

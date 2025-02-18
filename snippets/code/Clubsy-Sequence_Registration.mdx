@@ -1,0 +1,27 @@
+```plaintext
+// --- Registration Sequence ---
+Cliente > Frontend: Submit registration info
+activate Frontend
+Frontend > Entrada: Registration API call
+activate Entrada
+Entrada > SQS Cadastro: Enqueue registration data
+activate SQS Cadastro
+SQS Cadastro > Cadastro: Process registration data
+activate Cadastro
+alt [label: Registration Success, color: green] {
+    Cadastro > Storage: Archive data
+    Storage --> Cadastro: Archive ack
+}
+else [label: Registration Failure, color: red] {
+    Cadastro --> Cliente: Return error message
+}
+deactivate Cadastro
+Cadastro  > Módulo de Notificações: Send Notification
+SQS Cadastro --> Cadastro: End processing
+deactivate SQS Cadastro
+Cadastro > Entrada: Confirm registration
+Entrada --> Frontend: Forward confirmation
+Frontend --> Cliente: Registration complete
+deactivate Entrada
+deactivate Frontend
+```

@@ -5,12 +5,12 @@ description: "A arquitetura modular, escalável e multi-cloud, com foco na AWS, 
 
 <img
   className="block dark:hidden"
-  src="/images/hero-light.png"
+  src="/images/Clubsy-Arquitetura_Background.png"
   alt="Hero Light"
 />
 <img
   className="hidden dark:block"
-  src="/images/hero-dark.png"
+  src="/images/Clubsy-Arquitetura_Background.png"
   alt="Hero Dark"
 />
 
@@ -21,7 +21,7 @@ description: "A arquitetura modular, escalável e multi-cloud, com foco na AWS, 
 <Accordion icon="browser" title="Frontend">
   * **Web :** React ou Next.js para interfaces responsivas e performáticas.
   * **Mobile :** Flutter para aplicativos nativos iOS/Android.
-  * **Autenticação** : AWS Cognito ou Firebase para gerenciamento de usuários e autenticação segura.
+  * **Autenticação** : AWS Cognito para gerenciamento de usuários e autenticação segura.
 </Accordion>
 <Accordion icon="server" title="Backend">
   * **API Gateway :** Centraliza requisições HTTP e roteia para microserviços específicos.
@@ -35,11 +35,11 @@ description: "A arquitetura modular, escalável e multi-cloud, com foco na AWS, 
 </Accordion>
 <Accordion icon="database" title="Banco de Dados">
   * **Relacional** : PostgreSQL para dados estruturados (cadastros, agendamento, indicadores).
-  * **NoSQL :** DynamoDB ou MongoDB para dados não estruturados (transações, logs, eventos, histórico mensagens).
+  * **NoSQL :** DynamoDB para dados não estruturados (transações, logs, eventos, histórico mensagens).
   * **Cache :** Redis para melhorar performance de consultas frequentes no front.
 </Accordion>
 <Accordion icon="database" title="Filas e Processamento Assíncrono">
-  * **AWS SQS/SNS ou Apache Kafka :** Para processamento assíncrono de eventos (ex.: webhooks, notificações).
+  * **AWS SQS/SNS :** Para processamento assíncrono de eventos (ex.: webhooks, notificações).
 </Accordion>
 <Accordion icon="warehouse" title="Armazenamento">
   * **AWS S3 :** Armazenamento de arquivos (documentos, mídias).
@@ -63,7 +63,7 @@ description: "A arquitetura modular, escalável e multi-cloud, com foco na AWS, 
 </AccordionGroup>
 
 
-## Fluxograma de Arquitetura
+## Fluxograma Textual de Arquitetura
 
 <AccordionGroup>
 
@@ -108,3 +108,27 @@ description: "A arquitetura modular, escalável e multi-cloud, com foco na AWS, 
   * CloudWatch registra logs.
 </Accordion>
 </AccordionGroup>
+
+<CardGroup cols={2}>
+  <Card
+    title="Sequencia de Mensagens - Backend"
+    icon="message-pen"
+    href="/essentials/sequence"
+  >
+    Detalhamento das sequências de mensagens para os principais módulos do backend:
+    
+    - **Autenticação**: Fluxo de autenticação de usuários.
+    - **Notificações**: Gerenciamento e envio de notificações.
+    - **Mensagens**: Envio e processamento de mensagens.
+    - **Agendamento**: Fluxo de agendamento de eventos.
+    - **Cadastro**: Registro de novos usuários.
+    - **Pagamentos**: Processamento de transações de pagamento.
+  </Card>
+  <Card
+    title="Fluxo de Relações Databases - Backend"
+    icon="database"
+    href="/essentials/testing"
+  >
+    Detalhamento das relações contidas em cada schema.
+  </Card>
+</CardGroup>

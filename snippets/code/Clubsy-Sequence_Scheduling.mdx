@@ -1,0 +1,24 @@
+
+```plaintext
+// --- Scheduling Sequence ---
+Cliente > Frontend: Request scheduling
+activate Frontend
+Frontend > Entrada: Submit scheduling request
+activate Entrada
+Entrada > SQS Agendamento: Queue scheduling request
+activate SQS Agendamento
+SQS Agendamento > Agendamento: Dequeue scheduling task
+activate Agendamento
+loop [label: Verify slot availability, color: lightblue] {
+    Agendamento <> Banco de Dados: Check available slots
+    Agendamento > Banco de Dados: Confirm schedule
+}
+Agendamento > Módulo de Notificações: Send Notification
+deactivate Agendamento
+SQS Agendamento --> Agendamento: Processing complete
+deactivate SQS Agendamento
+Agendamento --> Entrada: Send scheduling confirmation
+deactivate Entrada
+Entrada --> Frontend: Deliver scheduling response
+deactivate Frontend
+```

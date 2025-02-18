@@ -1,0 +1,19 @@
+```plaintext
+// --- Notifications Sequence ---
+Entrada > EventBridge: Enqueue notification
+activate EventBridge
+EventBridge > SQS SNS: Enqueue notification
+EventBridge > SQS WhatsApp: Enqueue notification
+EventBridge > SQS DataBases: Enqueue notification
+SQS SNS > Notificações: Dequeue notification
+SQS WhatsApp > Notificações: Dequeue notification
+SQS DataBases > Notificações: Dequeue notification
+activate Notificações
+opt [label: Severe Alert, color: red] {
+    Notificações --> SQS SNS: Publish critical alert
+    SQS SNS --> Notificações: Confirm alert
+}
+Notificações --> Entrada: Notification result
+deactivate Notificações
+deactivate EventBridge
+```

@@ -1,0 +1,25 @@
+```plaintext
+// --- Payment Sequence ---
+Cliente > Frontend: Initiate payment
+activate Frontend
+Frontend > Entrada: Payment request submission
+activate Entrada
+Entrada > SQS Pagamentos: Queue payment information
+activate SQS Pagamentos
+SQS Pagamentos > Pagamentos: Process payment transaction
+activate Pagamentos
+alt [label: Payment Approved, color: green] {
+    Pagamentos > Stripe Connect: Charge card
+    activate Stripe Connect
+    Stripe Connect --> Pagamentos: Payment approved
+    deactivate Stripe Connect
+    Pagamentos > Módulo de Notificações: Emit payment confirmation
+    Pagamentos > Módulo de Notificações: Notify payment failure
+}
+else [label: Payment Declined, color: red] {
+    Pagamentos --> Cliente: Emit payment confirmation
+    Pagamentos --> Cliente: Notify payment failure
+}
+deactivate Pagamentos
+SQS Pagamentos --> Pagamentos: Processing complete
+```

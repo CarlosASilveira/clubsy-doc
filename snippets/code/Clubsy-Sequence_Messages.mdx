@@ -1,0 +1,21 @@
+```plaintext
+// --- Messages Sequence ---
+Cliente > Frontend: Send message content
+activate Frontend
+Frontend > Load Balancer: Route message
+activate Load Balancer
+Load Balancer > Comunicação EC2: Forward message
+activate Comunicação EC2
+par [label: Process & Log, color: lightgray] {
+    Comunicação EC2 > Comunicação EC2: Process message logic
+}
+and [label: Process & Log, color: lightgray] {
+    Comunicação EC2 > Banco de Dados: Log message record
+}
+Comunicação EC2 --> Load Balancer: Ack processed
+deactivate Comunicação EC2
+Load Balancer --> Frontend: Return acknowledgement
+deactivate Load Balancer
+Frontend --> Cliente: Message delivered
+deactivate Frontend
+```
