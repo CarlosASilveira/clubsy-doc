@@ -1,0 +1,312 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "{Clubsy} - Gestão Esportiva API",
+    "description": "API para gerenciar escolinhas e clubes esportivos.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.clubsy.com/v1"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Reports",
+      "description": "Endpoints relacionados à geração de relatórios"
+    }
+  ],
+  "paths": {
+    "/reports/payments": {
+      "get": {
+        "tags": ["Reports"],
+        "description": "Gerar relatório de pagamentos",
+        "responses": {
+          "200": {
+            "description": "Relatório de pagamentos gerado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentReport"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro na solicitação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports/attendance": {
+      "get": {
+        "tags": ["Reports"],
+        "description": "Gerar relatório de presença",
+        "responses": {
+          "200": {
+            "description": "Relatório de presença gerado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttendanceReport"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro na solicitação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports/performance": {
+      "get": {
+        "tags": ["Reports"],
+        "description": "Gerar relatório de desempenho",
+        "responses": {
+          "200": {
+            "description": "Relatório de desempenho gerado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PerformanceReport"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro na solicitação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{userId}/reports/payments": {
+      "get": {
+        "tags": ["Reports"],
+        "description": "Gerar relatório de pagamentos de um usuário específico",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID do usuário",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Relatório de pagamentos do usuário gerado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserPaymentReport"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{userId}/reports/attendance": {
+      "get": {
+        "tags": ["Reports"],
+        "description": "Gerar relatório de presença de um usuário específico",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID do usuário",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Relatório de presença do usuário gerado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserAttendanceReport"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{userId}/reports/performance": {
+      "get": {
+        "tags": ["Reports"],
+        "description": "Gerar relatório de desempenho de um usuário específico",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID do usuário",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Relatório de desempenho do usuário gerado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserPerformanceReport"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PaymentReport": {
+        "type": "object",
+        "properties": {
+          "total_payments": { "type": "integer", "format": "int32" },
+          "total_amount": { "type": "number", "format": "float" },
+          "pending_payments": { "type": "integer", "format": "int32" },
+          "completed_payments": { "type": "integer", "format": "int32" },
+          "failed_payments": { "type": "integer", "format": "int32" },
+          "generated_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "AttendanceReport": {
+        "type": "object",
+        "properties": {
+          "total_events": { "type": "integer", "format": "int32" },
+          "attended_events": { "type": "integer", "format": "int32" },
+          "absent_events": { "type": "integer", "format": "int32" },
+          "attendance_rate": { "type": "number", "format": "float" },
+          "generated_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "PerformanceReport": {
+        "type": "object",
+        "properties": {
+          "average_score": { "type": "number", "format": "float" },
+          "total_evaluations": { "type": "integer", "format": "int32" },
+          "highest_score": { "type": "number", "format": "float" },
+          "lowest_score": { "type": "number", "format": "float" },
+          "generated_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "UserPaymentReport": {
+        "type": "object",
+        "properties": {
+          "user_id": { "type": "integer", "format": "int64" },
+          "total_payments": { "type": "integer", "format": "int32" },
+          "total_amount": { "type": "number", "format": "float" },
+          "pending_payments": { "type": "integer", "format": "int32" },
+          "completed_payments": { "type": "integer", "format": "int32" },
+          "failed_payments": { "type": "integer", "format": "int32" },
+          "generated_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "UserAttendanceReport": {
+        "type": "object",
+        "properties": {
+          "user_id": { "type": "integer", "format": "int64" },
+          "total_events": { "type": "integer", "format": "int32" },
+          "attended_events": { "type": "integer", "format": "int32" },
+          "absent_events": { "type": "integer", "format": "int32" },
+          "attendance_rate": { "type": "number", "format": "float" },
+          "generated_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "UserPerformanceReport": {
+        "type": "object",
+        "properties": {
+          "user_id": { "type": "integer", "format": "int64" },
+          "average_score": { "type": "number", "format": "float" },
+          "total_evaluations": { "type": "integer", "format": "int32" },
+          "highest_score": { "type": "number", "format": "float" },
+          "lowest_score": { "type": "number", "format": "float" },
+          "generated_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": { "type": "integer", "format": "int32" },
+          "message": { "type": "string" }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

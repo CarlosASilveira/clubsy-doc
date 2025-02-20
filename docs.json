@@ -42,9 +42,124 @@
           {
             "group": "Endpoint Examples",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete"
+              {
+                "group": "Autenticação",
+                "pages": [
+                  "api-reference/endpoint/auth/register",
+                  "api-reference/endpoint/auth/login",
+                  "api-reference/endpoint/auth/logout",
+                  "api-reference/endpoint/auth/forgot-password",
+                  "api-reference/endpoint/auth/reset-password"
+                ]
+              },
+              {
+                "group": "Usuários",
+                "pages": [
+                  "api-reference/endpoint/users/get",
+                  "api-reference/endpoint/users/get-userId",
+                  "api-reference/endpoint/users/get-userId-payments",
+                  "api-reference/endpoint/users/get-userId-subscriptions",
+                  "api-reference/endpoint/users/get-userId-notifications",
+                  "api-reference/endpoint/users/get-userId-reports",
+                  "api-reference/endpoint/users/post",
+                  "api-reference/endpoint/users/post-userId-payments",
+                  "api-reference/endpoint/users/put-userId",
+                  "api-reference/endpoint/users/delete-userId"
+                ]
+              },
+              {
+                "group": "Pagamentos",
+                "pages": [
+                  "api-reference/endpoint/payments/get",
+                  "api-reference/endpoint/payments/get-paymentId",
+                  "api-reference/endpoint/payments/get-plans",
+                  "api-reference/endpoint/payments/get-plans-planId",
+                  "api-reference/endpoint/payments/post",
+                  "api-reference/endpoint/payments/post-plans",
+                  "api-reference/endpoint/payments/put-paymentId",
+                  "api-reference/endpoint/payments/put-plans-planId",
+                  "api-reference/endpoint/payments/delete-paymentId",
+                  "api-reference/endpoint/payments/delete-plans-planId"
+                ]
+              },
+              {
+                "group": "Assinaturas",
+                "pages": [
+                  "api-reference/endpoint/subscriptions/get",
+                  "api-reference/endpoint/subscriptions/get-subscriptionId",
+                  "api-reference/endpoint/subscriptions/get-userId-subscriptions",
+                  "api-reference/endpoint/subscriptions/post",
+                  "api-reference/endpoint/subscriptions/put-subscriptionId",
+                  "api-reference/endpoint/subscriptions/delete-subscriptionId"
+
+                ]
+              },
+              {
+                "group": "Eventos",
+                "pages": [
+                  "api-reference/endpoint/events/get",
+                  "api-reference/endpoint/events/get-eventId",
+                  "api-reference/endpoint/events/get-eventId-attendees",
+                  "api-reference/endpoint/events/get-eventId-reports",
+                  "api-reference/endpoint/events/get-eventId-feedbacks",
+                  "api-reference/endpoint/events/post",
+                  "api-reference/endpoint/events/post-eventId-attendees",
+                  "api-reference/endpoint/events/post-eventId-feedbacks",
+                  "api-reference/endpoint/events/put-eventId",                  
+                  "api-reference/endpoint/events/delete-eventId"
+
+                ]
+              },
+              {
+                "group": "Notificações",
+                "pages": [
+                  "api-reference/endpoint/notifications/get",
+                  "api-reference/endpoint/notifications/get-userId-notifications",
+                  "api-reference/endpoint/notifications/get-history",                  
+                  "api-reference/endpoint/notifications/get-notificationId",
+                  "api-reference/endpoint/notifications/post",
+                  "api-reference/endpoint/notifications/put-notificationId",
+                  "api-reference/endpoint/notifications/delete-notificationId"
+                ]
+              },
+              {
+                "group": "Messages",
+                "pages": [
+                  "api-reference/endpoint/messages/get",
+                  "api-reference/endpoint/messages/get-messageId",                  
+                  "api-reference/endpoint/messages/get-chats-chatId-messages",                  
+                  "api-reference/endpoint/messages/get-chats-chatId-participants",
+                  "api-reference/endpoint/messages/post",
+                  "api-reference/endpoint/messages/post-chats-chatId-messages",
+                  "api-reference/endpoint/messages/post-chats-chatId-participants",
+                  "api-reference/endpoint/messages/put-messageId",
+                  "api-reference/endpoint/messages/delete-messageId"
+                ]
+              },
+              {
+                "group": "Resources",
+                "pages": [
+                  "api-reference/endpoint/resources/get",
+                  "api-reference/endpoint/resources/get-resourceId",
+                  "api-reference/endpoint/resources/get-resourceId-availability",
+                  "api-reference/endpoint/resources/get-resourceId-bookings",
+                  "api-reference/endpoint/resources/post",
+                  "api-reference/endpoint/resources/post-resourceId-bookings",
+                  "api-reference/endpoint/resources/put-resourceId",
+                  "api-reference/endpoint/resources/delete-resourceId"
+                ]
+              },
+              {
+                "group": "Relatórios",
+                "pages": [
+                  "api-reference/endpoint/reports/get-payments",
+                  "api-reference/endpoint/reports/get-attendance",
+                  "api-reference/endpoint/reports/get-performance",
+                  "api-reference/endpoint/reports/get-users-userId-reports-payments",
+                  "api-reference/endpoint/reports/get-users-userId-reports-attendance",
+                  "api-reference/endpoint/reports/get-users-userId-reports-performance"
+                ]
+              }
             ]
           }
         ]
@@ -69,6 +184,7 @@
         }
       ]
     }
+    
   },
   "logo": {
     "light": "/logo/light.svg",

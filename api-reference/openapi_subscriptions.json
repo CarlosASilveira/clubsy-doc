@@ -1,0 +1,311 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "{Clubsy} - Gestão Esportiva API",
+    "description": "API para gerenciar escolinhas e clubes esportivos.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.clubsy.com/v1"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Subscriptions",
+      "description": "Endpoints relacionados às assinaturas"
+    }
+  ],
+  "paths": {
+    "/subscriptions": {
+      "get": {
+        "tags": ["Subscriptions"],
+        "description": "Listar todas as assinaturas",
+        "responses": {
+          "200": {
+            "description": "Assinaturas retornadas com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Subscription"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro na solicitação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Subscriptions"],
+        "description": "Criar uma nova assinatura",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewSubscription"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Assinatura criada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Subscription"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro na validação dos dados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}": {
+      "get": {
+        "tags": ["Subscriptions"],
+        "description": "Obter detalhes de uma assinatura específica",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "ID da assinatura",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detalhes da assinatura retornados com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Subscription"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Assinatura não encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Subscriptions"],
+        "description": "Atualizar uma assinatura",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "ID da assinatura",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubscriptionUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Assinatura atualizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Subscription"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro na validação dos dados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Subscriptions"],
+        "description": "Cancelar uma assinatura",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "ID da assinatura",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Assinatura cancelada com sucesso"
+          },
+          "404": {
+            "description": "Assinatura não encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{userId}/subscriptions": {
+      "get": {
+        "tags": ["Subscriptions"],
+        "description": "Listar assinaturas de um usuário específico",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID do usuário",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Assinaturas retornadas com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Subscription"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Subscription": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int64" },
+          "user_id": { "type": "integer", "format": "int64" },
+          "plan": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": ["active", "canceled", "expired"]
+          },
+          "start_date": { "type": "string", "format": "date-time" },
+          "end_date": { "type": "string", "format": "date-time" },
+          "created_at": { "type": "string", "format": "date-time" },
+          "updated_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "NewSubscription": {
+        "type": "object",
+        "properties": {
+          "user_id": { "type": "integer", "format": "int64" },
+          "plan": { "type": "string" },
+          "start_date": { "type": "string", "format": "date-time" },
+          "payment_method": {
+            "type": "string",
+            "enum": ["credit_card", "debit_card", "pix", "boleto"]
+          }
+        },
+        "required": ["user_id", "plan", "start_date", "payment_method"]
+      },
+      "SubscriptionUpdate": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["active", "canceled", "expired"]
+          }
+        },
+        "required": ["status"]
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": { "type": "integer", "format": "int32" },
+          "message": { "type": "string" }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
