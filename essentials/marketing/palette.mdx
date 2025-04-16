@@ -1,0 +1,152 @@
+---
+title: Sequências de Mensagens
+description: "Detalhamento das sequências de mensagens para os principais módulos do projeto Clubsy"
+icon: 'palette'
+---
+
+## Introdução
+
+Este documento descreve as sequências de mensagens para os principais módulos do projeto Clubsy, incluindo Pagamentos, Cadastro, Agendamento, Mensagens e Notificações. Cada seção fornece uma visão detalhada dos passos envolvidos no processamento de solicitações e respostas.
+
+
+## 1. Módulo de Autenticação
+
+### Fluxo de Mensagens
+
+1. **Cliente**: Inicia a solicitação de login.
+2. **Security**: Valida as credenciais.
+3. **Authentication**: 
+   - Se for autenticação tradicional: Retorna o token tradicional.
+   - Se for autenticação social/F2A: Retorna o token social/F2A.
+4. **Entrada**: Confirma o token.
+5. **Security**: Processa a autenticação.
+6. **Entrada**: Entrega o token de autenticação ao cliente.
+
+### Diagrama
+![Diagrama de Sequência de Autenticação](/images/Clubsy-Sequence_Auth_Background.png)
+
+### Código do Diagrama
+
+import AuthenticationSequence from '/snippets/code/Clubsy-Sequence_Auth.mdx';
+
+<AuthenticationSequence  />
+
+## 2. Módulo de Pagamentos
+
+### Fluxo de Mensagens
+
+1. **Cliente**: Inicia o pagamento.
+2. **Frontend**: Envia a solicitação de pagamento.
+3. **Entrada**: Recebe a solicitação e enfileira as informações de pagamento no SQS Pagamentos.
+4. **SQS Pagamentos**: Processa a transação de pagamento.
+5. **Pagamentos**: 
+   - Carrega o cartão via Stripe Connect.
+   - Se o pagamento for aprovado, emite uma confirmação de pagamento e notifica o módulo de notificações.
+   - Se o pagamento for recusado, notifica o módulo de notificações sobre a falha.
+6. **Stripe Connect**: Retorna o resultado da transação de pagamento.
+7. **Entrada**: Encaminha a confirmação para o frontend.
+8. **Frontend**: Informa o cliente que o pagamento foi concluído.
+
+### Diagrama
+![Diagrama de Sequência de Pagamentos](/images/Clubsy-Sequence_Payments_Background.png)
+
+### Código do Diagrama
+
+import PaymentsSequence from '/snippets/code/Clubsy-Sequence_Payments.mdx';
+
+<PaymentsSequence />
+
+## 3. Módulo de Cadastro
+
+### Fluxo de Mensagens
+
+1. **Cliente**: Submete as informações de registro.
+2. **Frontend**: Envia uma chamada de API de registro.
+3. **Entrada**: Enfileira os dados de registro no SQS Cadastro.
+4. **SQS Cadastro**: Processa os dados de registro.
+5. **Cadastro**: 
+   - Arquiva os dados no Storage.
+   - Envia uma notificação ao módulo de notificações.
+6. **Storage**: Confirma o arquivamento dos dados.
+7. **Entrada**: Confirma o registro para o frontend.
+8. **Frontend**: Informa o cliente que o registro foi concluído.
+
+### Diagrama
+![Diagrama de Sequência de Cadastro](/images/Clubsy-Sequence_Register_Background.png)
+
+### Código do Diagrama
+
+import RegistrationSequence from '/snippets/code/Clubsy-Sequence_Registration.mdx';
+
+<RegistrationSequence />
+
+## 4. Módulo de Agendamento
+
+### Fluxo de Mensagens
+
+1. **Cliente**: Solicita um agendamento.
+2. **Frontend**: Envia a solicitação de agendamento.
+3. **Entrada**: Enfileira a solicitação de agendamento no SQS Agendamento.
+4. **SQS Agendamento**: Desenfileira a tarefa de agendamento.
+5. **Agendamento**: 
+   - Verifica a disponibilidade do slot.
+   - Confirma o agendamento e envia uma notificação ao módulo de notificações.
+6. **Banco de Dados**: Armazena as informações do agendamento.
+7. **Entrada**: Envia a confirmação de agendamento para o frontend.
+8. **Frontend**: Informa o cliente que o agendamento foi concluído.
+
+### Diagrama
+![Diagrama de Sequência de Agendamento](/images/Clubsy-Sequence_Scheduler_Background.png)
+
+### Código do Diagrama
+import SchedulingSequence from '/snippets/code/Clubsy-Sequence_Scheduling.mdx';
+
+<SchedulingSequence />
+
+## 5. Módulo de Mensagens
+
+### Fluxo de Mensagens
+
+1. **Cliente**: Envia o conteúdo da mensagem.
+2. **Frontend**: Roteia a mensagem.
+3. **Load Balancer**: Encaminha a mensagem para a Comunicação EC2.
+4. **Comunicação EC2**: 
+   - Processa a lógica da mensagem.
+   - Registra a mensagem no banco de dados.
+5. **Banco de Dados**: Armazena o registro da mensagem.
+6. **Load Balancer**: Retorna o acknowledgment para o frontend.
+7. **Frontend**: Informa o cliente que a mensagem foi entregue.
+
+### Diagrama
+![Diagrama de Sequência de Mensagens](/images/Clubsy-Sequence_Messages_Background.png)
+
+### Código do Diagrama
+import MessagesSequence from '/snippets/code/Clubsy-Sequence_Messages.mdx';
+
+<MessagesSequence />
+
+## 6. Módulo de Notificações
+
+### Fluxo de Mensagens
+
+1. **Entrada**: Enfileira a notificação.
+2. **EventBridge**: Enfileira a notificação nas filas SQS SNS, SQS WhatsApp e SQS Databases.
+3. **SQS SNS, SQS WhatsApp, SQS Databases**: Desenfileiram as notificações.
+4. **Notificações**: 
+   - Publica alertas críticos conforme necessário.
+   - Confirma o alerta.
+5. **Entrada**: Retorna o resultado da notificação.
+
+### Diagrama
+![Diagrama de Sequência de Notificações](/images/Notificatoins_Sequence_Diagram.png)
+
+### Código do Diagrama
+import NotificationsSequence from '/snippets/code/Clubsy-Sequence_Notifications.mdx';
+
+<NotificationsSequence />
+
+---
+
+### Considerações Finais
+
+Cada fluxograma ilustra claramente os passos envolvidos no processamento de solicitações e respostas para os diferentes módulos. Essas sequências de mensagens são essenciais para garantir a integridade e eficiência do sistema Clubsy.

@@ -1,0 +1,118 @@
+---
+title: Documentação de Segurança
+description: "Medidas de segurança implementadas no projeto Clubsy para proteger dados sensíveis, prevenir ataques cibernéticos e moderar conversas entre adultos e menores."
+icon: 'shield-halved'
+---
+
+# Documentação de Segurança do Projeto
+
+## 1. Introdução
+
+Esta documentação descreve as medidas de segurança implementadas no projeto **Clubsy** para garantir a proteção de dados sensíveis, prevenir ataques cibernéticos e moderar conversas entre adultos e menores de idade. O objetivo é garantir conformidade com padrões de segurança modernos e proteger tanto os usuários quanto a infraestrutura do sistema.
+
+---
+
+## 2. Segurança de Dados
+
+### 2.1 Proteção de Dados Sensíveis
+
+Os dados sensíveis incluem informações pessoais dos usuários (como CPF, endereço, contatos), dados financeiros (como números de cartão de crédito e transações) e informações de login. As seguintes medidas serão implementadas:
+
+#### 2.1.1 Criptografia
+
+- **Transmissão de Dados**: Todas as comunicações entre o frontend, backend e bancos de dados serão criptografadas usando **TLS 1.3** para garantir a confidencialidade e integridade dos dados.
+- **Armazenamento de Dados**: Dados sensíveis armazenados no banco de dados serão criptografados usando **AES-256**. Isso inclui senhas (armazenadas como hashes com salt usando **bcrypt**) e informações financeiras.
+
+#### 2.1.2 Máscaras de Dados
+
+- Informações sensíveis, como números de cartão de crédito, serão mascaradas na interface do usuário e nos logs. Por exemplo: `**** **** **** 1234`.
+
+#### 2.1.3 Controle de Acesso
+
+- Implementação de **RBAC (Role-Based Access Control)** para restringir o acesso a dados sensíveis apenas aos usuários autorizados.
+- Logs detalhados de acesso a dados sensíveis serão mantidos para auditoria.
+
+---
+
+### 2.2 Proteção Contra Ataques Cibernéticos
+
+#### 2.2.1 Proteção Contra DDoS
+
+- **AWS Shield**: Será utilizado para proteger a infraestrutura contra ataques de negação de serviço distribuídos (DDoS).
+- **Rate Limiting**: Implementação de limites de taxa (rate limiting) no API Gateway para evitar sobrecarga de requisições maliciosas.
+- **CDN com Proteção**: O uso do **CloudFront** com recursos de mitigação de DDoS ajudará a distribuir o tráfego e proteger o sistema.
+
+#### 2.2.2 Proteção Contra Brute Force
+
+- **Limitação de Tentativas de Login**: Após 5 tentativas consecutivas de login inválidas, o usuário será bloqueado temporariamente por 15 minutos ou até que um código de verificação seja enviado via e-mail/SMS.
+- **Captcha**: Implementação de **Google reCAPTCHA v3** para detectar comportamentos suspeitos durante o login e outras operações críticas.
+
+#### 2.2.3 Prevenção de Roubo de Informações
+
+- **Tokenização**: Dados financeiros serão tokenizados antes de serem processados pelo gateway de pagamento (Stripe Connect). Isso garante que os números reais dos cartões nunca sejam expostos ao sistema.
+- **Monitoramento de Webhooks**: Todos os webhooks recebidos serão validados usando assinaturas HMAC SHA256 para garantir sua autenticidade.
+
+---
+
+## 3. Segurança das Conversas
+
+### 3.1 Moderação de Conteúdo
+
+O sistema de chat deve garantir a segurança das conversas entre adultos e menores de 18 anos, monitorando tanto o texto quanto os arquivos compartilhados (imagens e vídeos).
+
+#### 3.1.1 Monitoramento de Texto
+
+- **IA para Análise de Mensagens**: Será utilizado o **AWS Comprehend** ou **Google Cloud Natural Language** para analisar mensagens em tempo real e identificar conteúdos inapropriados, como linguagem ofensiva, bullying ou conteúdo impróprio para menores.
+- **Lista de Palavras Proibidas**: Uma lista personalizada de palavras e frases proibidas será configurada para filtrar automaticamente mensagens inadequadas.
+
+#### 3.1.2 Monitoramento de Mídia
+
+- **Análise de Imagens e Vídeos**: O **AWS Rekognition** será usado para analisar imagens e vídeos enviados no chat. Ele detectará conteúdo impróprio, como nudez, violência ou outros elementos inapropriados.
+- **Quarentena Automática**: Arquivos suspeitos serão colocados em quarentena e revisados manualmente antes de serem liberados ou excluídos.
+
+#### 3.1.3 Relatórios de Moderadores
+
+- Um painel de moderação será disponibilizado para os administradores, permitindo que eles revisem mensagens sinalizadas pela IA e tomem decisões sobre banimentos ou advertências.
+
+---
+
+### 3.2 Restrições de Comunicação
+
+- **Idade Verificada**: Antes de iniciar uma conversa, o sistema verificará a idade dos usuários. Menores de 18 anos só poderão conversar com adultos previamente autorizados (como treinadores ou responsáveis).
+- **Controle Parental**: Os responsáveis pelos menores poderão monitorar e aprovar as conversas realizadas pelos seus filhos.
+
+---
+
+## 4. Auditoria e Monitoramento
+
+### 4.1 Logs de Segurança
+
+- **Logs Centralizados**: Todos os eventos de segurança (tentativas de login, acessos a dados sensíveis, moderação de conteúdo) serão registrados no **AWS CloudWatch** e monitorados em tempo real.
+- **Alertas Automáticos**: Serão configurados alertas para eventos críticos, como múltiplas tentativas de login falhas ou detecção de atividades suspeitas.
+
+### 4.2 Auditoria Periódica
+
+- Realização de auditorias periódicas para verificar a conformidade com as políticas de segurança e identificar vulnerabilidades.
+- Testes de penetração regulares para identificar e corrigir falhas de segurança.
+
+---
+
+## 5. Políticas de Backup e Recuperação
+
+### 5.1 Backup de Dados
+
+- **Backup Automático**: Backups diários dos bancos de dados serão armazenados no **AWS S3** com criptografia AES-256.
+- **Retenção de Backups**: Backups serão retidos por 30 dias para recuperação em caso de incidentes.
+
+### 5.2 Plano de Recuperação de Desastres
+
+Um plano de recuperação de desastres será implementado para restaurar rapidamente os serviços em caso de falha crítica. Inclui:
+
+- Failover automático para regiões alternativas da AWS.
+- Testes regulares de recuperação.
+
+---
+
+## 6. Conclusão
+
+A segurança do projeto **Clubsy** foi projetada para proteger tanto os dados sensíveis quanto as interações dos usuários. As medidas implementadas garantem conformidade com padrões modernos de segurança, prevenção contra ataques cibernéticos e moderação eficaz de conteúdo no chat. Essas práticas são essenciais para manter a confiança dos usuários e proteger a integridade do sistema.

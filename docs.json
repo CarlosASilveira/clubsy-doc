@@ -18,14 +18,30 @@
             "pages": [
               "introduction",
               "quickstart",
-              "architecture"
-            ]
-          },
-          {
-            "group": "Essentials",
-            "pages": [
-              "essentials/sequence",
-              "essentials/security"
+              {
+                "group": "Arquitetura",
+                "pages": [
+                  "essentials/architecture/introduction",
+                  "essentials/architecture/sequence",
+                  "essentials/architecture/security"
+                ]
+              },
+              {
+                "group": "Database",
+                "pages": [
+                  "essentials/database/introduction",
+                  "essentials/database/sequence",
+                  "essentials/database/security"
+                ]
+              },
+              {
+                "group": "Marketing",
+                "pages": [
+                  "essentials/marketing/introduction",
+                  "essentials/marketing/logo",
+                  "essentials/marketing/palette"
+                ]
+              }
             ]
           }
         ]

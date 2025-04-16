@@ -2,18 +2,50 @@
 title: 'Introdução'
 description: 'Documentação da API para o sistema {Clubsy} - Gestão Esportiva'
 ---
-
 <Note>
   Esta documentação descreve os endpoints da API do projeto {Clubsy}, que é uma plataforma de gestão esportiva para escolinhas e clubes.
 </Note>
 
 ## Bem-vindo à API do {Clubsy}
 
-A API do {Clubsy} foi projetada para ser modular, escalável e segura, permitindo a integração com múltiplos módulos como **Pagamentos**, **Cadastro**, **Comunicação**, **Notificações**, e mais.
+A API do {Clubsy} foi projetada para ser **modular**, **escalável** e **segura**, permitindo a integração com múltiplos módulos como **Pagamentos**, **Cadastro**, **Comunicação**, **Notificações**, **Agendamento**, e mais.
 
-## Autenticação
+### Lógica Adotada para Criar os Endpoints
 
-Todos os endpoints da API são protegidos usando **Bearer Tokens**. Certifique-se de incluir o token de autenticação no cabeçalho de cada requisição:
+Para garantir consistência e facilitar a escalabilidade, os endpoints da API seguem uma **estrutura padronizada** baseada em recursos e sub-recursos. Abaixo estão os princípios fundamentais adotados no design dos endpoints:
+
+#### 1. **Modularidade**
+Cada módulo da API (ex.: Pagamentos, Cadastro, Comunicação) possui seus próprios endpoints, agrupados por funcionalidade. Isso permite que cada módulo seja desenvolvido, testado e mantido de forma independente.
+
+Exemplo:
+- **Pagamentos**: `/v1/payments`
+- **Cadastro**: `/v1/registrations`
+- **Comunicação**: `/v1/messages`
+
+#### 2. **Padronização CRUD**
+Os endpoints seguem as operações CRUD (Create, Read, Update, Delete) padrão para interagir com os recursos. Isso garante previsibilidade e facilita a compreensão da API.
+
+- **Listar Recursos**: `GET /v1/{resource}`
+- **Obter Detalhes de um Recurso**: `GET /v1/{resource}/{id}`
+- **Criar um Novo Recurso**: `POST /v1/{resource}`
+- **Atualizar um Recurso**: `PUT /v1/{resource}/{id}`
+- **Excluir um Recurso**: `DELETE /v1/{resource}/{id}`
+
+#### 3. **Sub-Recursos**
+Quando um recurso está relacionado a outro, usamos sub-recursos para representar essa relação. Por exemplo:
+- Listar mensagens de um chat específico: `GET /v1/chats/{chatId}/messages`
+- Reservar um recurso: `POST /v1/resources/{resourceId}/bookings`
+
+Essa abordagem mantém a hierarquia clara e reflete as relações entre os dados.
+
+#### 4. **Escalabilidade**
+A API foi projetada para ser escalável, permitindo a adição de novos módulos ou funcionalidades sem impactar os existentes. Para adicionar um novo módulo, basta seguir a mesma estrutura:
+1. Defina o recurso principal (ex.: `/v1/new-module`).
+2. Implemente as operações CRUD padrão.
+3. Adicione sub-recursos, se necessário.
+
+#### 5. **Segurança**
+Todos os endpoints são protegidos usando **Bearer Tokens**. Certifique-se de incluir o token de autenticação no cabeçalho de cada requisição:
 
 ```json
 "security": [

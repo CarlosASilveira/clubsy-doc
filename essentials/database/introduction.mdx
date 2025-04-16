@@ -1,0 +1,78 @@
+---
+title: Banco de Dados - Introdução
+description: "Visão geral da arquitetura de dados do Clubsy, detalhando as tecnologias escolhidas para persistência relacional, não relacional, armazenamento de arquivos e capacidades de IA."
+icon: 'database'
+---
+
+<img
+  className="block dark:hidden"
+  src="/images/Clubsy-Diagram_Database_Background.png"
+  alt="Hero Light"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/Clubsy-Diagram_Database_Background.png"
+  alt="Hero Dark"
+/>
+
+## Visão Geral da Persistência de Dados
+
+A estratégia de dados do Clubsy foi desenhada para ser robusta, escalável e eficiente, combinando diferentes tecnologias para atender às necessidades específicas de cada tipo de dado gerenciado pela plataforma. Utilizamos uma abordagem híbrida, aproveitando os pontos fortes de bancos de dados relacionais e não relacionais, além de soluções dedicadas para armazenamento de objetos e funcionalidades de IA.
+
+## Tecnologias de Dados Principais
+
+<AccordionGroup>
+
+  <Accordion icon="database" title="Supabase (PostgreSQL)">
+    * **Papel Principal:** Banco de dados relacional primário para armazenar dados estruturados essenciais da aplicação.
+    * **Casos de Uso:** Gerenciamento de cadastros (Organizações, Staff, Alunos, Responsáveis), Planos de Assinatura, Agendamentos (Aulas, Quadras), Centros de Custo, Histórico de Assinaturas, Equipamentos, e outras entidades com relacionamentos bem definidos.
+    * **Vantagens:** Consistência dos dados (ACID), consultas complexas via SQL, integridade referencial garantida por chaves estrangeiras. O Supabase facilita a administração e oferece APIs auto-geradas.
+  </Accordion>
+
+  <Accordion icon="brain-circuit" title="Supabase (AI & Vector Embeddings)">
+    * **Papel Principal:** Habilitar funcionalidades baseadas em Inteligência Artificial, principalmente através da vetorização de dados.
+    * **Casos de Uso:** Busca semântica em documentação ou base de conhecimento, sistemas de recomendação (ex: sugerir aulas ou planos), análise de similaridade entre perfis ou conteúdos, potencial moderação de conteúdo baseada em IA.
+    * **Tecnologia:** Utiliza extensões como `pgvector` dentro do próprio PostgreSQL gerenciado pelo Supabase para armazenar e consultar embeddings vetoriais de forma eficiente.
+  </Accordion>
+
+  <Accordion icon="warehouse" title="Supabase Storage (S3)">
+    * **Papel Principal:** Armazenamento seguro e escalável de objetos e arquivos binários.
+    * **Casos de Uso:** Upload e armazenamento de documentos anexados (contratos, atestados médicos), fotos de perfil de usuários, mídias relacionadas a aulas ou eventos, backups de banco de dados.
+    * **Vantagens:** Altamente durável e disponível, custo-efetivo para grandes volumes de dados, integração facilitada com o ecossistema Supabase (incluindo controle de acesso granular). Funciona de maneira similar ou sobre o AWS S3.
+  </Accordion>
+
+  <Accordion icon="table-list" title="AWS DynamoDB">
+    * **Papel Principal:** Banco de dados NoSQL para dados não estruturados ou semi-estruturados que exigem alta escalabilidade e baixa latência.
+    * **Casos de Uso:** Logs detalhados de auditoria ou atividade de usuários, histórico de mensagens de chat (se aplicável e com alto volume), dados de sessão, streams de eventos, ou outros dados onde o acesso é primariamente por chave-valor e a flexibilidade do schema é vantajosa.
+    * **Vantagens:** Escalabilidade virtualmente infinita, performance consistente em qualquer escala, modelo de precificação flexível (pay-as-you-go), schema flexível.
+  </Accordion>
+
+  <Accordion icon="key" title="Supabase Auth">
+    * **Papel Principal:** Gerenciamento completo do ciclo de vida de autenticação e autorização dos usuários.
+    * **Casos de Uso:** Login, registro, recuperação de senha, gerenciamento de sessões (JWT), login social (Google, Facebook, etc.), controle de acesso baseado em regras (Row Level Security - RLS) integrado ao banco de dados PostgreSQL.
+    * **Vantagens:** Solução gerenciada e segura, integrada nativamente com o banco de dados Supabase, simplifica o desenvolvimento de funcionalidades de autenticação.
+  </Accordion>
+
+</AccordionGroup>
+
+## Próximos Passos
+
+Explore as seções abaixo para um entendimento mais aprofundado da estrutura e das relações do nosso banco de dados.
+
+<CardGroup cols={2}>
+  <Card
+    title="Schema Detalhado (PostgreSQL)"
+    icon="database"
+    href="/database/postgres-schema"
+  >
+    Diagrama Entidade-Relacionamento (DER) e descrição detalhada das tabelas, colunas e relacionamentos no Supabase/PostgreSQL.
+  </Card>
+  <Card
+    title="Modelos de Dados NoSQL (DynamoDB)"
+    icon="table-list"
+    href="/database/dynamodb-models"
+  >
+    Estrutura das tabelas, chaves de partição/ordenação e padrões de acesso para os dados armazenados no DynamoDB.
+  </Card>
+  {/* Adicione mais Cards conforme necessário, por exemplo, para políticas de backup, estratégias de indexação, etc. */}
+</CardGroup>
